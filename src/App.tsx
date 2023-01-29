@@ -1,16 +1,13 @@
-import "./App.css";
+import "./App.scss";
 import { StoreProvider } from "easy-peasy";
 import store from "./store";
-
-import Home from "./Components/Home";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
 
 function App() {
 	return (
 		<StoreProvider store={store}>
-			<div className="App">
-				<h1>hola mundo</h1>
-				<Home />
-			</div>
+			<RouterProvider router={router} />
 		</StoreProvider>
 	);
 }
