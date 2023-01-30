@@ -1,4 +1,5 @@
 import "./App.scss";
+import "./Styles/defaults/Link.scss";
 import { StoreProvider } from "easy-peasy";
 import store from "./store";
 import { RouterProvider } from "react-router-dom";

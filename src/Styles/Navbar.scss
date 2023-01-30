@@ -1,0 +1,25 @@
+@import "./defaults/variables";
+
+.Navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: $navbar-height;
+	background-color: cornflowerblue;
+}
+
+.Navbar_Title {
+	margin-left: 2rem;
+	font-size: large;
+}
+
+.Navbar_LogButtons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-right: 2rem;
+	width: 20rem;
+	height: 100%;
+	background-color: aquamarine;
+}

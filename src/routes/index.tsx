@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { rootRoute } from "./root";
-import { homeRoute } from "./home";
 
-const routes = [rootRoute, homeRoute];
+const routes = [rootRoute];
 
 export const router = createBrowserRouter(routes);

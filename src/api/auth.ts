@@ -7,6 +7,12 @@ const authApi = {
 		});
 		return data;
 	},
+
+	async signUp(payload: any) {
+		const { data } = await api.post("auth/signup", payload);
+		return data;
+	},
+
 	async logIn(payload: any) {
 		const { data } = await api.post("auth/signin", payload);
 		return data;

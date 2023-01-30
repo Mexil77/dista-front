@@ -1,16 +1,16 @@
 import { useStoreState } from "../hooks";
-import { Link } from "react-router-dom";
 
-type Props = {};
+import "../Styles/Home.scss";
 
-const Home: React.FC = (props: Props) => {
-	const authenticated = useStoreState((state) => state.auth.authenticated);
-	const accessToken = useStoreState((state) => state.auth.accessToken);
+const Home: React.FC = () => {
+	//State
+	const user = useStoreState((state) => state.auth.user);
+
 	return (
-		<div>
-			<h1>Authenticated: {authenticated ? "Yes" : "No"}</h1>
-			<h1>accessToken: {accessToken}</h1>
-			<Link to="/">Home</Link>
+		<div className="Home">
+			<h1>Bienvenido</h1>
+			<h1>{user.email}</h1>
+			<h1>createdAt: {user.createdAt}</h1>
 		</div>
 	);
 };

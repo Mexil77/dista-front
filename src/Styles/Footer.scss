@@ -1,0 +1,8 @@
+@import "./defaults/variables";
+
+.Footer {
+	color: aliceblue;
+	background-color: #000;
+	height: $footer-height;
+	width: 100%;
+}

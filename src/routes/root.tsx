@@ -1,6 +1,8 @@
 import Root from "../Components/Root";
 import Landing from "../Components/Landing";
+import { homeRoute } from "./home";
 import { logInRoute } from "./login";
+import { signUpRoute } from "./signin";
 
 export const rootRoute = {
 	path: "/",
@@ -10,6 +12,8 @@ export const rootRoute = {
 			path: "",
 			element: <Landing />,
 		},
+		homeRoute,
 		logInRoute,
+		signUpRoute,
 	],
 };
