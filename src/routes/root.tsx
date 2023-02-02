@@ -3,6 +3,7 @@ import Landing from "../Components/Landing";
 import { homeRoute } from "./home";
 import { logInRoute } from "./login";
 import { signUpRoute } from "./signin";
+import { productRoute } from "./product";
 
 export const rootRoute = {
 	path: "/",
@@ -15,5 +16,6 @@ export const rootRoute = {
 		homeRoute,
 		logInRoute,
 		signUpRoute,
+		productRoute,
 	],
 };
