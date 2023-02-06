@@ -10,11 +10,3 @@ export const setAuthorizationToken: any = (
 		delete api.defaults.headers.common.Authorization;
 	}
 };
-
-export const setUserHeader: any = (userId: string) => {
-	if (!isEmpty(userId)) {
-		api.defaults.headers.common["User-Agent"] = userId;
-	} else {
-		delete api.defaults.headers.common["User-Agent"];
-	}
-};

@@ -19,7 +19,6 @@ export const formModel: FormModel = persist({
 		try {
 			const { formApi } = injections;
 			const data = await formApi.saveForm(payload);
-			console.log(data);
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });
 			return false;

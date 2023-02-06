@@ -22,22 +22,23 @@ export default function Add() {
 	};
 	const prepareDataForm = () => {
 		return {
+			storeState: storeSelect === "new",
 			storeName: storeSelect === "new" ? storeName : storeSelect,
+			productSelect: productSelect,
 			productName: productSelect ? productName : null,
 			productValue: productSelect ? productValue : null,
 		};
 	};
 	const submitForm = async () => {
 		const dataForm = prepareDataForm();
-		console.log(dataForm);
 		const res = await saveForm(dataForm);
 		if (res) {
-			setStoreSelect("");
-			setProductSelect(false);
-			setStoreName("");
-			setProductName("");
-			setProductValue(0);
-			navigate("/product");
+			// setStoreSelect("");
+			// setProductSelect(false);
+			// setStoreName("");
+			// setProductName("");
+			// setProductValue(0);
+			// navigate("/product");
 		}
 	};
 

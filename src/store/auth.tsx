@@ -1,6 +1,6 @@
 import { persist, Action, action, Thunk, thunk } from "easy-peasy";
 import { isEmpty } from "lodash";
-import { setAuthorizationToken, setUserHeader } from "../lib/utils";
+import { setAuthorizationToken } from "../lib/utils";
 import { Injections } from ".";
 import { User } from "../models/user";
 import { errorMessage } from "../lib/errors";
@@ -34,14 +34,12 @@ export const authModel: AuthModel = persist(
 			state.authenticated = !isEmpty(state.user);
 			state.accessToken = payload.accessToken;
 			setAuthorizationToken(payload.accessToken);
-			setUserHeader(payload.user._id);
 		}),
 		logOut: action((state) => {
 			state.user = new User({});
 			state.authenticated = false;
 			state.accessToken = undefined;
 			setAuthorizationToken(null);
-			setUserHeader(null);
 		}),
 		//Thunks
 		logIn: thunk(async (actions, payload, { injections }) => {
