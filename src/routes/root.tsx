@@ -4,6 +4,7 @@ import { homeRoute } from "./home";
 import { logInRoute } from "./login";
 import { signUpRoute } from "./signin";
 import { productRoute } from "./product";
+import { addRoute } from "./add";
 
 export const rootRoute = {
 	path: "/",
@@ -17,5 +18,6 @@ export const rootRoute = {
 		logInRoute,
 		signUpRoute,
 		productRoute,
+		addRoute,
 	],
 };

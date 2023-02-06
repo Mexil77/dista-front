@@ -1,9 +1,13 @@
+import FilterBar from "./FilterBar";
+import Grid from "./Grid";
+
 import "../Styles/ProductDashboard.scss";
 
 export default function ProductDashboard() {
 	return (
 		<div className="ProductDashboard">
-			<h1>ProductDashboard</h1>
+			<FilterBar />
+			<Grid />
 		</div>
 	);
 }
