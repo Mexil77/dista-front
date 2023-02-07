@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { useStoreActions } from "../hooks";
+import { useState, useEffect } from "react";
+import { useStoreState, useStoreActions } from "../hooks";
 import { useNavigate } from "react-router-dom";
 
 export default function Add() {
+	//State
+	const listStores = useStoreState((state) => state.store.listStores);
 	//Actions
 	const saveForm = useStoreActions((action) => action.form.saveForm);
+	const getStores = useStoreActions((action) => action.store.getStores);
 
 	//Local State
 	const [storeSelect, setStoreSelect] = useState("new");
@@ -33,15 +36,18 @@ export default function Add() {
 		const dataForm = prepareDataForm();
 		const res = await saveForm(dataForm);
 		if (res) {
-			// setStoreSelect("");
-			// setProductSelect(false);
-			// setStoreName("");
-			// setProductName("");
-			// setProductValue(0);
-			// navigate("/product");
+			setStoreSelect("");
+			setProductSelect(false);
+			setStoreName("");
+			setProductName("");
+			setProductValue(0);
+			navigate("/product");
 		}
 	};
 
+	useEffect(() => {
+		getStores({});
+	});
 	return (
 		<div className="Add">
 			<select
@@ -50,7 +56,11 @@ export default function Add() {
 				value={storeSelect}
 				onChange={(e) => setStoreSelect(e.target.value)}
 			>
-				<option value="mercadona">mercadona</option>
+				{listStores.docs.map((store) => (
+					<option key={store._id} value={store.name}>
+						{store.name}
+					</option>
+				))}
 				<option value="new">new</option>
 			</select>
 			<br />

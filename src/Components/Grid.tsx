@@ -1,9 +1,18 @@
 import Card from "./Card";
+import { Product } from "../models/product";
 
-export default function Grid() {
+import "../Styles/Grid.scss";
+
+type Props = {
+	data: Product[];
+};
+
+export default function Grid({ data }: Props) {
 	return (
 		<div className="Grid">
-			<Card />
+			{data.map((d) => (
+				<Card key={d._id} data={d} />
+			))}
 		</div>
 	);
 }
