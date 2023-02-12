@@ -5,6 +5,9 @@ export class Product {
 	public _id: string;
 	public name: string;
 	public price: number;
+	public units: number;
+	public typeUnit: string;
+	public description: string;
 	public user: User;
 	public store: Store;
 	public photo: any | undefined;
@@ -13,6 +16,9 @@ export class Product {
 		this._id = info._id;
 		this.name = info.name;
 		this.price = info.price;
+		this.units = info.units;
+		this.typeUnit = info.typeUnit;
+		this.description = info.description;
 		this.user = info.user;
 		this.store = info.store;
 		this.photo = info.photo;
