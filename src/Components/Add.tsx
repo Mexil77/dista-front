@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useStoreState, useStoreActions } from "../hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { TypeProductEnumAsArray } from "../enums/type-product.enum";
 
 export default function Add() {
@@ -8,7 +8,6 @@ export default function Add() {
 	const listStores = useStoreState((state) => state.store.listStores);
 	//Actions
 	const saveForm = useStoreActions((action) => action.form.saveForm);
-	const getStores = useStoreActions((action) => action.store.getStores);
 
 	//Local State
 	const [formState, setFormState] = useState({
@@ -67,11 +66,12 @@ export default function Add() {
 		setFormState({ ...formState, [e.target.id]: value });
 	};
 
-	useEffect(() => {
-		getStores({});
-	});
 	return (
 		<div className="Add">
+			<Link to="/product">
+				<h1>Atras</h1>
+			</Link>
+			<br />
 			<select
 				name="storeSelect"
 				id="storeSelect"

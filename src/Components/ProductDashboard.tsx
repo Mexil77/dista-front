@@ -10,10 +10,12 @@ export default function ProductDashboard() {
 	const products = useStoreState((state) => state.product.listProducts);
 	//Actions
 	const getProducts = useStoreActions((action) => action.product.getProducts);
+	const getStores = useStoreActions((action) => action.store.getStores);
 
 	useEffect(() => {
 		getProducts({});
-	}, [getProducts]);
+		getStores({});
+	}, [getProducts, getStores]);
 	return (
 		<div className="ProductDashboard">
 			<FilterBar />
