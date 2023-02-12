@@ -14,5 +14,5 @@ export default function AuthRoute({ component: Component }: Props) {
 			navigate("/");
 		}
 	});
-	return <Component />;
+	return authenticated ? <Component /> : <></>;
 }
