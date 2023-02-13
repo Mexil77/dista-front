@@ -1,10 +1,25 @@
 import { Product } from "../models/product";
+import { useStoreActions } from "../hooks";
 
 import "../Styles/Card.scss";
 
 type Props = { data: Product };
 
 export default function Card({ data }: Props) {
+	//Actions
+	const setShowModalAddList = useStoreActions(
+		(action) => action.list.setShowModalAddList
+	);
+	const setProductSelected = useStoreActions(
+		(action) => action.list.setProductSelected
+	);
+
+	//Functions
+	const addList = () => {
+		setProductSelected(data);
+		setShowModalAddList(true);
+	};
+
 	return (
 		<div className="Card">
 			<p>heart icon</p>
@@ -17,7 +32,7 @@ export default function Card({ data }: Props) {
 
 			<p>{data.store.name}</p>
 			<button>Compare</button>
-			<button>Add to list</button>
+			<button onClick={addList}>Add to list</button>
 		</div>
 	);
 }

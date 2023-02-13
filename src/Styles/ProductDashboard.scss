@@ -1,6 +1,7 @@
 @import "./defaults/variables";
 
 .ProductDashboard {
+	position: relative;
 	min-height: calc(100vh - $navbar-height - $footer-height);
 	background-color: bisque;
 	width: 80%;

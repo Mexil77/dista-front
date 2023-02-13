@@ -1,0 +1,14 @@
+.ModalAddList {
+	position: absolute;
+	flex-direction: column;
+	align-items: center;
+	background-color: cadetblue;
+	min-width: 200px;
+	width: 15%;
+	height: 200px;
+	border-radius: 20px;
+	border: 1px solid #000;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
