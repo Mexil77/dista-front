@@ -1,0 +1,8 @@
+@import "./defaults/variables";
+
+.ListDashboard {
+	position: relative;
+	min-height: calc(100vh - $navbar-height - $footer-height);
+	background-color: bisque;
+	width: 80%;
+}

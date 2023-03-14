@@ -8,6 +8,7 @@ import { Product } from "../models/product";
 export interface ListModel {
 	//State
 	listLists: PaginateResult<List>;
+	listSelected: List;
 	showModalAddList: boolean;
 	productSelected: Product;
 	//Actions
@@ -15,9 +16,12 @@ export interface ListModel {
 	setLists: Action<ListModel, any>;
 	setShowModalAddList: Action<ListModel, any>;
 	setProductSelected: Action<ListModel, any>;
+	setListSelected: Action<ListModel, any>;
 	//Thunks
 	getLists: Thunk<ListModel, any, Injections>;
 	saveModalAddList: Thunk<ListModel, any, Injections>;
+	saveModalEditList: Thunk<ListModel, any, Injections>;
+	deleteList: Thunk<ListModel, any, Injections>;
 }
 
 export const listModel: ListModel = {
@@ -29,6 +33,7 @@ export const listModel: ListModel = {
 		page: 1,
 		pages: 0,
 	},
+	listSelected: new List({}),
 	showModalAddList: false,
 	productSelected: new Product({}),
 	//Actions
@@ -43,6 +48,9 @@ export const listModel: ListModel = {
 	}),
 	setProductSelected: action((state, payload) => {
 		state.productSelected = new Product(payload);
+	}),
+	setListSelected: action((state, payload) => {
+		state.listSelected = new List(payload);
 	}),
 	//Thunks
 	getLists: thunk(async (actions, payload, { injections }) => {
@@ -61,6 +69,32 @@ export const listModel: ListModel = {
 			const { listApi } = injections;
 			await listApi.saveModalAddList(payload);
 			actions.setShowModalAddList(false);
+			actions.setProductSelected({});
+		} catch (error) {
+			actions.errorRequest({ msg: errorMessage(error) });
+			return false;
+		}
+		return true;
+	}),
+	saveModalEditList: thunk(async (actions, payload, { injections }) => {
+		try {
+			const { listApi } = injections;
+			await listApi.saveModalEditList(payload);
+			actions.setShowModalAddList(false);
+			actions.setListSelected({});
+			actions.setProductSelected({});
+		} catch (error) {
+			actions.errorRequest({ msg: errorMessage(error) });
+			return false;
+		}
+		return true;
+	}),
+	deleteList: thunk(async (actions, payload, { injections }) => {
+		try {
+			const { listApi } = injections;
+			await listApi.deleteList(payload);
+			actions.setShowModalAddList(false);
+			actions.setListSelected({});
 			actions.setProductSelected({});
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });

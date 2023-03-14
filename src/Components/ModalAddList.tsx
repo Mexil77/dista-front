@@ -2,6 +2,9 @@ import { useState, useRef } from "react";
 import { useStoreState, useStoreActions } from "../hooks";
 import OutsideAlerter from "../common/OutsideAlerter";
 
+import { IoAddCircleOutline } from "react-icons/io5";
+import { AiOutlineEdit } from "react-icons/ai";
+
 import "../Styles/ModalAddList.scss";
 
 export default function ModalAddList() {
@@ -13,6 +16,7 @@ export default function ModalAddList() {
 	const showModalAddList = useStoreState(
 		(state) => state.list.showModalAddList
 	);
+	const listSelected = useStoreState((state) => state.list.listSelected);
 	const productSelected = useStoreState((state) => state.list.productSelected);
 	//Actions
 	const setShowModalAddList = useStoreActions(
@@ -22,11 +26,14 @@ export default function ModalAddList() {
 	const saveModalAddList = useStoreActions(
 		(action) => action.list.saveModalAddList
 	);
+	const saveModalEditList = useStoreActions(
+		(action) => action.list.saveModalEditList
+	);
 	const getLists = useStoreActions((action) => action.list.getLists);
 
 	//Local State
 	const [modalListState, setModalListState] = useState({
-		listSelect: listLists.docs.length === 0 ? "new" : listLists.docs[0].name,
+		listSelect: listLists.docs.length === 0 ? "new" : listLists.docs[0]._id,
 		listName: "",
 	});
 
@@ -35,15 +42,25 @@ export default function ModalAddList() {
 		return {
 			listState: modalListState.listSelect === "new",
 			listName:
-				modalListState.listSelect === "new" ? modalListState.listName : "",
-			listId:
-				modalListState.listSelect === "new" ? "" : modalListState.listSelect,
+				modalListState.listSelect === "new" || listSelected._id
+					? modalListState.listName
+					: "",
+			listId: listSelected._id
+				? listSelected._id
+				: modalListState.listSelect === "new"
+				? ""
+				: modalListState.listSelect,
 			listProduct: productSelected?._id,
 		};
 	};
 	const submitForm = async () => {
 		const dataForm = prepareDataForm();
-		const res = await saveModalAddList(dataForm);
+		let res;
+		if (listSelected._id) {
+			res = await saveModalEditList(dataForm);
+		} else {
+			res = await saveModalAddList(dataForm);
+		}
 		if (res) {
 			setModalListState({
 				...modalListState,
@@ -65,22 +82,27 @@ export default function ModalAddList() {
 			ref={wrapperRef}
 			style={{ display: showModalAddList ? "flex" : "none" }}
 		>
-			<h1>Add to List</h1>
-			<h1>{productSelected.name}</h1>
-			<select
-				name="listSelect"
-				id="listSelect"
-				value={modalListState.listSelect}
-				onChange={onFiledChange}
-			>
-				{listLists.docs.map((list) => (
-					<option key={list._id} value={list._id}>
-						{list.name}
-					</option>
-				))}
-				<option value="new">new</option>
-			</select>
-			{modalListState.listSelect === "new" && (
+			<h1>
+				{!listSelected._id
+					? `Add ${productSelected.name} to List`
+					: "New list name"}
+			</h1>
+			{!listSelected._id && (
+				<select
+					name="listSelect"
+					id="listSelect"
+					value={modalListState.listSelect}
+					onChange={onFiledChange}
+				>
+					{listLists.docs.map((list) => (
+						<option key={list._id} value={list._id}>
+							{list.name}
+						</option>
+					))}
+					<option value="new">new</option>
+				</select>
+			)}
+			{(modalListState.listSelect === "new" || listSelected._id) && (
 				<input
 					id="listName"
 					type="text"
@@ -89,7 +111,9 @@ export default function ModalAddList() {
 					onChange={onFiledChange}
 				/>
 			)}
-			<button onClick={submitForm}>Add</button>
+			<button onClick={submitForm}>
+				{!listSelected._id ? <IoAddCircleOutline /> : <AiOutlineEdit />}
+			</button>
 		</div>
 	);
 }

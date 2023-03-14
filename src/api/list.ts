@@ -10,6 +10,16 @@ const listApi = {
 		const { data } = await api.post("list", payload);
 		return data;
 	},
+
+	async saveModalEditList(payload: any) {
+		const { data } = await api.post("list/edit-list", payload);
+		return data;
+	},
+
+	async deleteList(payload: any) {
+		const { data } = await api.delete(`list/${payload._id}`, payload);
+		return data;
+	},
 };
 
 export default listApi;

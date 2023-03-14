@@ -13,6 +13,8 @@ const Home: React.FC = () => {
 			<h1>{user.email}</h1>
 			<h1>createdAt: {user.createdAt}</h1>
 			<Link to="/product">product</Link>
+			<br />
+			<Link to="/list">list</Link>
 		</div>
 	);
 };

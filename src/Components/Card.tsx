@@ -26,7 +26,7 @@ export default function Card({ data }: Props) {
 			<img src="" alt="" />
 			<p>{data.name}</p>
 			<h3>
-				{data.price} $ - {data.units} {data.typeUnit}
+				$ {data.price} - {data.units} {data.typeUnit}
 			</h3>
 			<p>{data.description}</p>
 

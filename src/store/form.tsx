@@ -18,7 +18,7 @@ export const formModel: FormModel = persist({
 	saveForm: thunk(async (actions, payload, { injections }) => {
 		try {
 			const { formApi } = injections;
-			const data = await formApi.saveForm(payload);
+			await formApi.saveForm(payload);
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });
 			return false;
