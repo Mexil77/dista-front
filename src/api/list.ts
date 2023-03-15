@@ -20,6 +20,14 @@ const listApi = {
 		const { data } = await api.delete(`list/${payload._id}`, payload);
 		return data;
 	},
+
+	async deleteProductList(payload: any) {
+		const { data } = await api.delete(
+			`list/${payload.listId}/${payload.productId}`,
+			payload
+		);
+		return data;
+	},
 };
 
 export default listApi;

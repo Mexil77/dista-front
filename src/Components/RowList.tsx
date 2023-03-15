@@ -20,15 +20,24 @@ export default function RowList({ data }: Props) {
 	);
 	//Thunks
 	const deleteList = useStoreActions((action) => action.list.deleteList);
+	const deleteProductList = useStoreActions(
+		(action) => action.list.deleteProductList
+	);
 	const getLists = useStoreActions((action) => action.list.getLists);
 
 	//LocalState
 	const [selected, setSelected] = useState(false);
 
-	const sumbitDelete = () => {
-		const res = deleteList({ _id: data._id });
+	const submitDelete = async () => {
+		const res = await deleteList({ _id: data._id });
 		if (res) {
 			setSelected(false);
+			getLists({});
+		}
+	};
+	const submitProductDelete = async (productId: string) => {
+		const res = await deleteProductList({ listId: data._id, productId });
+		if (res) {
 			getLists({});
 		}
 	};
@@ -48,7 +57,7 @@ export default function RowList({ data }: Props) {
 					>
 						<AiOutlineEdit />
 					</button>
-					<button onClick={sumbitDelete}>
+					<button onClick={submitDelete}>
 						<MdOutlineDeleteForever />
 					</button>
 				</div>
@@ -65,7 +74,11 @@ export default function RowList({ data }: Props) {
 							{product.units} {product.typeUnit} - ${product.price}
 						</p>
 						<div className="edit_delete_buttons">
-							<button>
+							<button
+								onClick={() => {
+									submitProductDelete(product._id);
+								}}
+							>
 								<MdOutlineDeleteForever />
 							</button>
 						</div>
