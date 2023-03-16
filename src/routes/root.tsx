@@ -1,25 +1,24 @@
 import Root from "../Components/Root";
-import Landing from "../Components/Landing";
+import { landingRoute } from "./landing";
 import { homeRoute } from "./home";
 import { logInRoute } from "./login";
 import { signUpRoute } from "./signin";
 import { productRoute } from "./product";
 import { addRoute } from "./add";
 import { listRouth } from "./list";
+import { cartRoute } from "./cart";
 
 export const rootRoute = {
 	path: "/",
 	element: <Root />,
 	children: [
-		{
-			path: "",
-			element: <Landing />,
-		},
+		landingRoute,
 		homeRoute,
 		logInRoute,
 		signUpRoute,
 		productRoute,
 		listRouth,
 		addRoute,
+		cartRoute,
 	],
 };

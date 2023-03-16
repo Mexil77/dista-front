@@ -50,7 +50,7 @@ export default function ModalAddList() {
 				: modalListState.listSelect === "new"
 				? ""
 				: modalListState.listSelect,
-			listProduct: productSelected?._id,
+			listProduct: productSelected,
 		};
 	};
 	const submitForm = async () => {

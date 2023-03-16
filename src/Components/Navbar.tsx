@@ -22,6 +22,19 @@ export default function Navbar() {
 			<Link to="/" className="CleanLink Navbar_Title">
 				Dista
 			</Link>
+			{authenticated && (
+				<div className="Navbar_NavLinks">
+					<Link to="/list" className="CleanLink Navbar_Title">
+						Lists
+					</Link>
+					<Link to="/product" className="CleanLink Navbar_Title">
+						Products
+					</Link>
+					<Link to="/cart" className="CleanLink Navbar_Title">
+						Cart
+					</Link>
+				</div>
+			)}
 			{authenticated ? (
 				<div className="Navbar_LogButtons">
 					<button onClick={logout} className="ButtonLink">
