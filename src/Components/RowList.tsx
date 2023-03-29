@@ -7,7 +7,6 @@ import { AiOutlineEdit } from "react-icons/ai";
 
 import "../Styles/RowList.scss";
 import { useStoreActions } from "../hooks";
-import { Store } from "../models/store";
 
 type Props = { data: List };
 
@@ -86,7 +85,7 @@ export default function RowList({ data }: Props) {
 					</div>
 				))}
 				{data.storeTotals.map((store: any) => (
-					<div className="RowList_Body_RowProduct">
+					<div key={store.store._id} className="RowList_Body_RowProduct">
 						<p>
 							Total {store.store.name}: {store.total}
 						</p>

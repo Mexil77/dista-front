@@ -1,6 +1,8 @@
 import { Product } from "../models/product";
 import { useStoreActions } from "../hooks";
 
+import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
+
 import "../Styles/Card.scss";
 
 type Props = { data: Product };
@@ -13,16 +15,24 @@ export default function Card({ data }: Props) {
 	const setProductSelected = useStoreActions(
 		(action) => action.list.setProductSelected
 	);
+	const setCartProduct = useStoreActions(
+		(action) => action.list.setCartProduct
+	);
 
 	//Functions
 	const addList = () => {
 		setProductSelected(data);
 		setShowModalAddList(true);
 	};
+	const addToCartList = () => {
+		setCartProduct(data);
+	};
 
 	return (
 		<div className="Card">
-			<p>heart icon</p>
+			<p>
+				<AiFillHeart />
+			</p>
 			<img src="" alt="" />
 			<p>{data.name}</p>
 			<h3>
@@ -33,6 +43,9 @@ export default function Card({ data }: Props) {
 			<p>{data.store.name}</p>
 			<button>Compare</button>
 			<button onClick={addList}>Add to list</button>
+			<button onClick={addToCartList}>
+				<AiOutlineShoppingCart />
+			</button>
 		</div>
 	);
 }
