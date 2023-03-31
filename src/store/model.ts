@@ -1,3 +1,4 @@
+import { persist } from "easy-peasy";
 import { AuthModel, authModel } from "./auth";
 import { FormModel, formModel } from "./form";
 import { ProductModel, productModel } from "./product";
@@ -19,7 +20,7 @@ const storeModel: StoreModel = {
 	form: formModel,
 	product: productModel,
 	store: storModel,
-	list: listModel,
+	list: persist(listModel),
 };
 
 export default storeModel;

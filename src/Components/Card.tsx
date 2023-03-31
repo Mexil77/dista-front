@@ -25,7 +25,7 @@ export default function Card({ data }: Props) {
 		setShowModalAddList(true);
 	};
 	const addToCartList = () => {
-		setCartProduct(data);
+		setCartProduct({ ...data, discarted: false, founded: false });
 	};
 
 	return (

@@ -21,6 +21,7 @@ export interface ListModel {
 	setProductSelected: Action<ListModel, any>;
 	setListSelected: Action<ListModel, any>;
 	dropCartProduct: Action<ListModel, any>;
+	handleCartListCheckers: Action<ListModel, any>;
 	//Thunks
 	saveBuy: Thunk<ListModel, any, Injections>;
 	getLists: Thunk<ListModel, any, Injections>;
@@ -68,6 +69,13 @@ export const listModel: ListModel = {
 	dropCartProduct: action((state, payload) => {
 		state.cartList.products = state.cartList.products.filter(
 			(product) => product._id !== payload
+		);
+	}),
+	handleCartListCheckers: action((state, payload) => {
+		state.cartList.products = state.cartList.products.map((product: any) =>
+			product._id !== payload.id
+				? product
+				: { ...product, [payload.field]: payload.value }
 		);
 	}),
 	//Thunks

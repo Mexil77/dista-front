@@ -1,4 +1,4 @@
-import { Product } from "./product";
+import { CartProduct } from "./cartProduct";
 import { User } from "./user";
 import { Store } from "./store";
 
@@ -15,7 +15,7 @@ class storeTotal {
 export class List {
 	public _id: string;
 	public name: string;
-	public products: Product[];
+	public products: CartProduct[];
 	public user: User;
 	public storeTotals: storeTotal[];
 	public total: Number;
