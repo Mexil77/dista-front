@@ -2,7 +2,7 @@ import { CartProduct } from "./cartProduct";
 import { User } from "./user";
 import { Store } from "./store";
 
-class storeTotal {
+export class storeTotal {
 	public store: Store;
 	public total: Number;
 

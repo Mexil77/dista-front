@@ -80,6 +80,12 @@ export default function Cart() {
 						</div>
 					))}
 				</div>
+				{cartList.storeTotals?.map((store) => (
+					<div key={store.store._id} className="Cart_Body_Totals">
+						<p>{store.store.name}</p>
+						<p>{`$${store.total}`}</p>
+					</div>
+				))}
 				<div className="Cart_Body_Totals">
 					<p>{`$${cartList.total}`}</p>
 					<button>ticket</button>

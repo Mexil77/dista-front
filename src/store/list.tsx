@@ -4,6 +4,7 @@ import { errorMessage } from "../lib/errors";
 import { PaginateResult } from "../interface/PaginateResult";
 import { List } from "../models/list";
 import { Product } from "../models/product";
+import { totalListProducts, makeStoreTotals } from "../lib/utils";
 
 export interface ListModel {
 	//State
@@ -49,7 +50,14 @@ export const listModel: ListModel = {
 		alert(`Error: ${msg.message}`);
 	}),
 	setCartProduct: action((state, payload) => {
-		state.cartList.products.push(payload);
+		const find = state.cartList.products.find(
+			(product) => product._id === payload._id
+		);
+		if (!find) {
+			state.cartList.products.push(payload);
+			state.cartList.total = totalListProducts(state.cartList.products);
+			state.cartList.storeTotals = makeStoreTotals(state.cartList.products);
+		}
 	}),
 	setCartList: action((state, payload) => {
 		state.cartList = payload;
@@ -70,6 +78,8 @@ export const listModel: ListModel = {
 		state.cartList.products = state.cartList.products.filter(
 			(product) => product._id !== payload
 		);
+		state.cartList.total = totalListProducts(state.cartList.products);
+		state.cartList.storeTotals = makeStoreTotals(state.cartList.products);
 	}),
 	handleCartListCheckers: action((state, payload) => {
 		state.cartList.products = state.cartList.products.map((product: any) =>
