@@ -103,8 +103,8 @@ export const listModel: ListModel = {
 	saveBuy: thunk(async (actions, payload, { injections }) => {
 		try {
 			const { listApi } = injections;
-			// const data = await listApi.getLists(payload);
-			// actions.setLists(data);
+			await listApi.saveBuy(payload);
+			actions.setCartList(new List({ name: "Cart", total: 0, products: [] }));
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });
 			return false;

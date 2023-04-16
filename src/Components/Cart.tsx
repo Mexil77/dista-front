@@ -1,6 +1,7 @@
 import "../Styles/Cart.scss";
 import { useStoreState, useStoreActions } from "../hooks";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AiFillDelete } from "react-icons/ai";
 
@@ -18,6 +19,8 @@ export default function Cart() {
 	const saveBuy = useStoreActions((action) => action.list.saveBuy);
 	//LocalState
 	const [cartProductList, setCartProductList] = useState(cartList.products);
+	//Navigate
+	const navigate = useNavigate();
 
 	//fucntions
 	const manageDelete = (id: string) => {
@@ -27,6 +30,12 @@ export default function Cart() {
 	const manageCheckers = (id: string, field: string, value: boolean) => {
 		handleCartListCheckers({ id, field, value });
 		setCartProductList(cartList.products);
+	};
+	const manageSaveBuy = () => {
+		const res = saveBuy(cartList);
+		if (res) {
+			navigate("/home");
+		}
 	};
 	return (
 		<div className="Cart">
@@ -80,15 +89,18 @@ export default function Cart() {
 						</div>
 					))}
 				</div>
-				{cartList.storeTotals?.map((store) => (
-					<div key={store.store._id} className="Cart_Body_Totals">
-						<p>{store.store.name}</p>
-						<p>{`$${store.total}`}</p>
-					</div>
-				))}
 				<div className="Cart_Body_Totals">
-					<p>{`$${cartList.total}`}</p>
-					<button>ticket</button>
+					{cartList.storeTotals?.map((store) => (
+						<div key={store.store._id} className="Cart_Body_Totals_Total">
+							<p>{store.store.name}</p>
+							<p>{`$${store.total}`}</p>
+						</div>
+					))}
+					<div className="Cart_Body_Totals_Total">
+						<p>TOTAL</p>
+						<p>{`$${cartList.total}`}</p>
+					</div>
+					<button onClick={manageSaveBuy}>Make Ticket</button>
 				</div>
 			</div>
 		</div>

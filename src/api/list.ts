@@ -6,6 +6,11 @@ const listApi = {
 		return data;
 	},
 
+	async saveBuy(payload: any) {
+		const { data } = await api.post("list/buy", payload);
+		return data;
+	},
+
 	async saveModalAddList(payload: any) {
 		const { data } = await api.post("list", payload);
 		return data;
