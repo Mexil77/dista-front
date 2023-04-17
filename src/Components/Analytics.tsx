@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useStoreState, useStoreActions } from "../hooks";
 
 import "../Styles/Analytics.scss";
+import { generateRandomColor } from "../lib/utils";
 
 ChartJS.register(
 	CategoryScale,
@@ -60,32 +61,15 @@ export default function Analytics() {
 
 	useEffect(() => {
 		getStoresTotalsCharts({});
-	});
+	}, [getStoresTotalsCharts]);
 	const data = () => {
 		return {
 			labels,
 			datasets: storesTotalsChart.map((store: any) => ({
 				label: store.name,
 				data: store.data,
-				backgroundColor: "rgba(255, 99, 132, 0.5)",
+				backgroundColor: generateRandomColor(),
 			})),
-			// datasets: [
-			// 	{
-			// 		label: "Dia",
-			// 		data: labels.map((label, idx) => idx * 100),
-			// 		backgroundColor: "rgba(255, 99, 132, 0.5)",
-			// 	},
-			// 	{
-			// 		label: "Carrefour",
-			// 		data: labels.map((label, idx) => 1000 - idx * 100),
-			// 		backgroundColor: "rgba(53, 162, 235, 0.5)",
-			// 	},
-			// 	{
-			// 		label: "Corte Ingles",
-			// 		data: labels.map(() => 500),
-			// 		backgroundColor: "rgba(153, 62, 125, 0.5)",
-			// 	},
-			// ],
 		};
 	};
 	return (
