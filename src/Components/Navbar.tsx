@@ -33,6 +33,9 @@ export default function Navbar() {
 					<Link to="/cart" className="CleanLink Navbar_Title">
 						Cart
 					</Link>
+					<Link to="/analytic" className="CleanLink Navbar_Title">
+						Analitycs
+					</Link>
 				</div>
 			)}
 			{authenticated ? (

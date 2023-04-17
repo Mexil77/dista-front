@@ -7,6 +7,7 @@ import { productRoute } from "./product";
 import { addRoute } from "./add";
 import { listRouth } from "./list";
 import { cartRoute } from "./cart";
+import { analyticRoute } from "./analytics";
 
 export const rootRoute = {
 	path: "/",
@@ -20,5 +21,6 @@ export const rootRoute = {
 		listRouth,
 		addRoute,
 		cartRoute,
+		analyticRoute,
 	],
 };
