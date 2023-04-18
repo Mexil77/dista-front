@@ -8,11 +8,10 @@ import {
 	Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "../hooks";
 
 import "../Styles/Analytics.scss";
-import { generateRandomColor } from "../lib/utils";
 
 ChartJS.register(
 	CategoryScale,
@@ -23,20 +22,7 @@ ChartJS.register(
 	Legend
 );
 
-export const options = {
-	responsive: true,
-	plugins: {
-		legend: {
-			position: "top" as const,
-		},
-		title: {
-			display: true,
-			text: "Spend per store",
-		},
-	},
-};
-
-const labels = [
+const monthLabels = [
 	"January",
 	"February",
 	"March",
@@ -52,32 +38,96 @@ const labels = [
 ];
 
 export default function Analytics() {
+	//LocalState
+	const [storeChartSelect, setStoreChartSelect] = useState({
+		storeChartSelect: "",
+	});
+	//State
 	const storesTotalsChart = useStoreState(
 		(state) => state.chart.storesTotalsChart
 	);
+	const productsPerStoreTotalChart = useStoreState(
+		(state) => state.chart.productsPerStoreTotalChart
+	);
+	//Thunks
 	const getStoresTotalsCharts: any = useStoreActions(
 		(action) => action.chart.getStoresTotalsCharts
+	);
+	const getProductsPerStoreTotalChart: any = useStoreActions(
+		(action) => action.chart.getProductsPerStoreTotalChart
 	);
 
 	useEffect(() => {
 		getStoresTotalsCharts({});
 	}, [getStoresTotalsCharts]);
-	const data = () => {
+
+	//Functions
+	const onFiledChange = (e: any) => {
+		let value = e.target.value;
+		setStoreChartSelect({ ...storeChartSelect, [e.target.id]: value });
+		getProductsPerStoreTotalChart({ id: value });
+	};
+
+	const chartStoreName = () =>
+		storeChartSelect.storeChartSelect !== ""
+			? storesTotalsChart.find(
+					(store: any) => store.id === storeChartSelect.storeChartSelect
+			  ).name
+			: "No selected";
+
+	const options = (name: string) => ({
+		responsive: true,
+		plugins: {
+			legend: {
+				position: "top" as const,
+			},
+			title: {
+				display: true,
+				text: name,
+			},
+		},
+	});
+
+	const data = (labels: string[], data: any) => {
 		return {
 			labels,
-			datasets: storesTotalsChart.map((store: any) => ({
+			datasets: data.map((store: any) => ({
 				label: store.name,
 				data: store.data,
-				backgroundColor: generateRandomColor(),
+				backgroundColor: store.color,
 			})),
 		};
 	};
 	return (
 		<div className="Analytics">
-			<h1>Analytics</h1>
+			<div className="Analytics_Header">
+				<p>Analytics</p>
+				<select
+					name="storeChartSelect"
+					id="storeChartSelect"
+					value={storeChartSelect.storeChartSelect}
+					onChange={onFiledChange}
+				>
+					<option value="">Select Store</option>
+					{storesTotalsChart.map((store: any) => (
+						<option key={store?.id} value={store?.id}>
+							{store?.name}
+						</option>
+					))}
+				</select>
+			</div>
 			<div className="Analytics_Charts">
 				<div className="Analytics_Charts_Chart">
-					<Bar options={options} data={data()} />
+					<Bar
+						options={options("Data per store")}
+						data={data(monthLabels, storesTotalsChart)}
+					/>
+				</div>
+				<div className="Analytics_Charts_Chart">
+					<Bar
+						options={options(chartStoreName())}
+						data={data(["products"], productsPerStoreTotalChart)}
+					/>
 				</div>
 			</div>
 		</div>

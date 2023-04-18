@@ -7,6 +7,13 @@ const chartApi = {
 		});
 		return data;
 	},
+
+	async getProductsPerStoreTotalChart(payload: any) {
+		const { data } = await api.get("chart/getProductsPerStoreTotalChart", {
+			params: payload,
+		});
+		return data;
+	},
 };
 
 export default chartApi;
