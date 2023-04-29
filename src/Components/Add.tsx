@@ -14,11 +14,15 @@ export default function Add() {
 		storeSelect: "new",
 		productSelect: false,
 		storeName: "",
-		productName: "",
-		productValue: 0,
-		productUnits: 0,
-		productTypeUnit: TypeProductEnumAsArray[0],
-		productDescription: "",
+		products: [
+			{
+				productName: "",
+				productValue: 0,
+				productUnits: 0,
+				productTypeUnit: TypeProductEnumAsArray[0],
+				productDescription: "",
+			},
+		],
 	});
 
 	//Navigate
@@ -33,11 +37,13 @@ export default function Add() {
 					? formState.storeName
 					: formState.storeSelect,
 			productSelect: formState.productSelect,
-			productName: formState.productSelect ? formState.productName : null,
-			productValue: formState.productSelect ? formState.productValue : null,
-			productUnits: formState.productUnits,
-			productTypeUnit: formState.productTypeUnit,
-			productDescription: formState.productDescription,
+			products: formState.products.map((product) => ({
+				productName: formState.productSelect ? product.productName : null,
+				productValue: formState.productSelect ? product.productValue : null,
+				productUnits: product.productUnits,
+				productTypeUnit: product.productTypeUnit,
+				productDescription: product.productDescription,
+			})),
 		};
 	};
 	const submitForm = async () => {
@@ -48,11 +54,15 @@ export default function Add() {
 				storeSelect: "new",
 				productSelect: false,
 				storeName: "",
-				productName: "",
-				productValue: 0,
-				productUnits: 0,
-				productTypeUnit: TypeProductEnumAsArray[0],
-				productDescription: "",
+				products: [
+					{
+						productName: "",
+						productValue: 0,
+						productUnits: 0,
+						productTypeUnit: TypeProductEnumAsArray[0],
+						productDescription: "",
+					},
+				],
 			});
 			navigate("/product");
 		}
@@ -65,7 +75,35 @@ export default function Add() {
 
 		setFormState({ ...formState, [e.target.id]: value });
 	};
-
+	const onSlotChange = (e: any, slot: { idx: number; var: string }) => {
+		let value: string | number = e.target.value;
+		if (!Number.isNaN(parseFloat(e.target.value)))
+			value = parseFloat(e.target.value);
+		let products: any[] = formState.products;
+		products[slot.idx][slot.var] = value;
+		setFormState({ ...formState, products });
+	};
+	const addSlotProduct = () => {
+		setFormState({
+			...formState,
+			products: [
+				...formState.products,
+				{
+					productName: "",
+					productValue: 0,
+					productUnits: 0,
+					productTypeUnit: TypeProductEnumAsArray[0],
+					productDescription: "",
+				},
+			],
+		});
+	};
+	const removeSlotproduct = (idx: number) => {
+		setFormState({
+			...formState,
+			products: formState.products.filter((product, index) => index !== idx),
+		});
+	};
 	return (
 		<div className="Add">
 			<Link to="/product">
@@ -115,50 +153,54 @@ export default function Add() {
 			/>
 			Yes
 			<br />
-			{formState.productSelect && (
-				<div className="Add_ProductItems">
-					<input
-						id="productName"
-						type="text"
-						placeholder="Name of product"
-						value={formState.productName}
-						onChange={onFiledChange}
-					/>
-					<input
-						id="productValue"
-						type="number"
-						value={formState.productValue}
-						onChange={onFiledChange}
-					/>
-					<input
-						id="productUnits"
-						type="number"
-						value={formState.productUnits}
-						onChange={onFiledChange}
-					/>
-					<select
-						name="productTypeUnit"
-						id="productTypeUnit"
-						value={formState.productTypeUnit}
-						onChange={onFiledChange}
-					>
-						{TypeProductEnumAsArray.map((type) => (
-							<option key={type} value={type}>
-								{type}
-							</option>
-						))}
-					</select>
-					<input
-						id="productDescription"
-						type="test"
-						placeholder="Description"
-						value={formState.productDescription}
-						onChange={onFiledChange}
-					/>
-					<button>+</button>
-					<br />
-				</div>
-			)}
+			{formState.productSelect &&
+				formState.products.map((slot, idx) => (
+					<div key={idx} className="Add_ProductItems">
+						<input
+							id="productName"
+							type="text"
+							placeholder="Name of product"
+							value={slot.productName}
+							onChange={(e) => onSlotChange(e, { idx, var: "productName" })}
+						/>
+						<input
+							id="productValue"
+							type="number"
+							value={slot.productValue}
+							onChange={(e) => onSlotChange(e, { idx, var: "productValue" })}
+						/>
+						<input
+							id="productUnits"
+							type="number"
+							value={slot.productUnits}
+							onChange={(e) => onSlotChange(e, { idx, var: "productUnits" })}
+						/>
+						<select
+							name="productTypeUnit"
+							id="productTypeUnit"
+							value={slot.productTypeUnit}
+							onChange={(e) => onSlotChange(e, { idx, var: "productTypeUnit" })}
+						>
+							{TypeProductEnumAsArray.map((type) => (
+								<option key={type} value={type}>
+									{type}
+								</option>
+							))}
+						</select>
+						<input
+							id="productDescription"
+							type="test"
+							placeholder="Description"
+							value={slot.productDescription}
+							onChange={(e) =>
+								onSlotChange(e, { idx, var: "productDescription" })
+							}
+						/>
+						<button onClick={addSlotProduct}>+</button>
+						<button onClick={() => removeSlotproduct(idx)}>-</button>
+						<br />
+					</div>
+				))}
 			<button onClick={submitForm}>Add</button>
 		</div>
 	);
