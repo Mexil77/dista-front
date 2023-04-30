@@ -33,19 +33,6 @@ export default function FilterBar() {
 				storeSelected={queryState.storeSelect}
 				onFiledChange={onFiledChange}
 			/>
-			{/* <select
-				name="queryStoreSelect"
-				id="queryStoreSelect"
-				value={queryState.queryStoreSelect}
-				onChange={onFiledChange}
-			>
-				<option value="">-</option>
-				{listStores.docs.map((store) => (
-					<option key={store?._id} value={store?._id}>
-						{store?.name}
-					</option>
-				))}
-			</select> */}
 			<button>List</button>
 			<button>Square</button>
 		</div>

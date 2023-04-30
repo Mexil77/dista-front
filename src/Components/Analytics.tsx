@@ -10,6 +10,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "../hooks";
+import StoreDropDown from "./StoreDropDown";
 
 import "../Styles/Analytics.scss";
 
@@ -39,9 +40,7 @@ const monthLabels = [
 
 export default function Analytics() {
 	//LocalState
-	const [storeChartSelect, setStoreChartSelect] = useState({
-		storeChartSelect: "",
-	});
+	const [storeSelect, setStoreSelect] = useState("");
 	//State
 	const storesTotalsChart = useStoreState(
 		(state) => state.chart.storesTotalsChart
@@ -64,15 +63,13 @@ export default function Analytics() {
 	//Functions
 	const onFiledChange = (e: any) => {
 		let value = e.target.value;
-		setStoreChartSelect({ ...storeChartSelect, [e.target.id]: value });
+		setStoreSelect(value);
 		getProductsPerStoreTotalChart({ id: value });
 	};
 
 	const chartStoreName = () =>
-		storeChartSelect.storeChartSelect !== ""
-			? storesTotalsChart.find(
-					(store: any) => store.id === storeChartSelect.storeChartSelect
-			  ).name
+		storeSelect !== ""
+			? storesTotalsChart.find((store: any) => store.id === storeSelect).name
 			: "No selected";
 
 	const options = (name: string) => ({
@@ -102,19 +99,11 @@ export default function Analytics() {
 		<div className="Analytics">
 			<div className="Analytics_Header">
 				<p>Analytics</p>
-				<select
-					name="storeChartSelect"
-					id="storeChartSelect"
-					value={storeChartSelect.storeChartSelect}
-					onChange={onFiledChange}
-				>
-					<option value="">Select Store</option>
-					{storesTotalsChart.map((store: any) => (
-						<option key={store?.id} value={store?.id}>
-							{store?.name}
-						</option>
-					))}
-				</select>
+				<StoreDropDown
+					defaultField={{ value: "", text: "Select Store" }}
+					storeSelected={storeSelect}
+					onFiledChange={onFiledChange}
+				/>
 			</div>
 			<div className="Analytics_Charts">
 				<div className="Analytics_Charts_Chart">
