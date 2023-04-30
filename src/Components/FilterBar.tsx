@@ -1,22 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useStoreState, useStoreActions } from "../hooks";
+import { useStoreActions } from "../hooks";
+import StoreDropDown from "./StoreDropDown";
 
 export default function FilterBar() {
-	//State
-	const listStores = useStoreState((state) => state.store.listStores);
-
 	//Actions
 	const getProducts = useStoreActions((action) => action.product.getProducts);
 
 	//Local State
 	const [queryState, setQueryState] = useState({
-		queryStoreSelect: "",
+		storeSelect: "",
 	});
 
 	//Functions
 	const prepareDataForm = (data: any) => {
-		return { store: data.queryStoreSelect };
+		return { store: data.storeSelect };
 	};
 	const onFiledChange = (e: any) => {
 		let value = e.target.value;
@@ -30,7 +28,12 @@ export default function FilterBar() {
 			<h3>Product</h3>
 			<input type="text" />
 			<Link to="/add">Add</Link>
-			<select
+			<StoreDropDown
+				defaultField={{ value: "", text: "-" }}
+				storeSelected={queryState.storeSelect}
+				onFiledChange={onFiledChange}
+			/>
+			{/* <select
 				name="queryStoreSelect"
 				id="queryStoreSelect"
 				value={queryState.queryStoreSelect}
@@ -42,7 +45,7 @@ export default function FilterBar() {
 						{store?.name}
 					</option>
 				))}
-			</select>
+			</select> */}
 			<button>List</button>
 			<button>Square</button>
 		</div>

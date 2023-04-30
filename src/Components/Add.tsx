@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useStoreState, useStoreActions } from "../hooks";
+import { useStoreActions } from "../hooks";
 import { useNavigate, Link } from "react-router-dom";
 import { TypeProductEnumAsArray } from "../enums/type-product.enum";
+import StoreDropDown from "./StoreDropDown";
 
 export default function Add() {
-	//State
-	const listStores = useStoreState((state) => state.store.listStores);
 	//Actions
 	const saveForm = useStoreActions((action) => action.form.saveForm);
 
@@ -70,9 +69,6 @@ export default function Add() {
 	const onFiledChange = (e: any) => {
 		let value = e.target.value;
 		if (e.target.id === "productSelect") value = e.target.value === "yes";
-		if (!Number.isNaN(parseFloat(e.target.value)))
-			value = parseFloat(e.target.value);
-
 		setFormState({ ...formState, [e.target.id]: value });
 	};
 	const onSlotChange = (e: any, slot: { idx: number; var: string }) => {
@@ -110,19 +106,11 @@ export default function Add() {
 				<h1>Atras</h1>
 			</Link>
 			<br />
-			<select
-				name="storeSelect"
-				id="storeSelect"
-				value={formState.storeSelect}
-				onChange={onFiledChange}
-			>
-				{listStores.docs.map((store) => (
-					<option key={store._id} value={store.name}>
-						{store.name}
-					</option>
-				))}
-				<option value="new">new</option>
-			</select>
+			<StoreDropDown
+				defaultField={{ value: "new", text: "new" }}
+				storeSelected={formState.storeSelect}
+				onFiledChange={onFiledChange}
+			/>
 			<br />
 			{formState.storeSelect === "new" && (
 				<input
