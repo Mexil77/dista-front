@@ -3,7 +3,7 @@ import { List } from "../models/list";
 
 import { IoIosArrowDropright, IoIosArrowDropdown } from "react-icons/io";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineShoppingCart } from "react-icons/ai";
 
 import "../Styles/RowList.scss";
 import { useStoreActions } from "../hooks";
@@ -11,12 +11,17 @@ import { useStoreActions } from "../hooks";
 type Props = { data: List };
 
 export default function RowList({ data }: Props) {
+	//LocalState
+	const [selected, setSelected] = useState(false);
 	//Actions
 	const setShowModalAddList = useStoreActions(
 		(action) => action.list.setShowModalAddList
 	);
 	const setListSelected = useStoreActions(
 		(action) => action.list.setListSelected
+	);
+	const setCartProduct = useStoreActions(
+		(action) => action.list.setCartProduct
 	);
 	//Thunks
 	const deleteList = useStoreActions((action) => action.list.deleteList);
@@ -25,9 +30,7 @@ export default function RowList({ data }: Props) {
 	);
 	const getLists = useStoreActions((action) => action.list.getLists);
 
-	//LocalState
-	const [selected, setSelected] = useState(false);
-
+	//Functions
 	const submitDelete = async () => {
 		const res = await deleteList({ _id: data._id });
 		if (res) {
@@ -40,6 +43,9 @@ export default function RowList({ data }: Props) {
 		if (res) {
 			getLists({});
 		}
+	};
+	const addToCartList = () => {
+		data.products.map((product) => setCartProduct(product));
 	};
 	return (
 		<div className="RowList">
@@ -59,6 +65,9 @@ export default function RowList({ data }: Props) {
 					</button>
 					<button onClick={submitDelete}>
 						<MdOutlineDeleteForever />
+					</button>
+					<button onClick={addToCartList}>
+						<AiOutlineShoppingCart />
 					</button>
 				</div>
 			</div>
