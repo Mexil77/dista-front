@@ -67,10 +67,12 @@ export default function Analytics() {
 		getProductsPerStoreTotalChart({ id: value });
 	};
 
-	const chartStoreName = () =>
-		storeSelect !== ""
-			? storesTotalsChart.find((store: any) => store.id === storeSelect).name
-			: "No selected";
+	const chartStoreName = () => {
+		const storeHasTikets = storesTotalsChart.find(
+			(store: any) => store.id === storeSelect
+		);
+		return storeHasTikets ? storeHasTikets.name : "Empti";
+	};
 
 	const options = (name: string) => ({
 		responsive: true,
