@@ -2,10 +2,12 @@ import "../Styles/Cart.scss";
 import { useStoreState, useStoreActions } from "../hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactDatePicker from "react-datepicker";
 
 import { AiFillDelete } from "react-icons/ai";
 
 export default function Cart() {
+	const [startDate, setStartDate] = useState<Date>(new Date());
 	//State
 	const cartList = useStoreState((state) => state.list.cartList);
 	//Actions
@@ -32,7 +34,7 @@ export default function Cart() {
 		setCartProductList(cartList.products);
 	};
 	const manageSaveBuy = () => {
-		const res = saveBuy(cartList);
+		const res = saveBuy({ ...cartList, registerDate: startDate });
 		if (res) {
 			navigate("/home");
 		}
@@ -41,6 +43,13 @@ export default function Cart() {
 		<div className="Cart">
 			<div className="Cart_Header">
 				<h1>{cartList.name}</h1>
+			</div>
+			<div className="Cart_Date">
+				<h1>Ticket Day</h1>
+				<ReactDatePicker
+					selected={startDate}
+					onChange={(date: Date) => setStartDate(date)}
+				/>
 			</div>
 			<div className="Cart_Body">
 				<div className="Cart_Body_Products">
