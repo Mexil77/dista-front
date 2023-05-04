@@ -1,16 +1,14 @@
 import Card from "./Card";
-import { Product } from "../models/product";
+import { useStoreState } from "../hooks";
 
 import "../Styles/Grid.scss";
 
-type Props = {
-	data: Product[];
-};
-
-export default function Grid({ data }: Props) {
+export default function Grid() {
+	//State
+	const products = useStoreState((state) => state.product.listProducts);
 	return (
 		<div className="Grid">
-			{data.map((d) => (
+			{products.docs.map((d) => (
 				<Card key={d._id} data={d} />
 			))}
 		</div>

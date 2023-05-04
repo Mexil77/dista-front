@@ -6,9 +6,11 @@ import { Product } from "../models/product";
 
 export interface ProductModel {
 	//State
+	productDetail: Product;
 	listProducts: PaginateResult<Product>;
 	//Actions
 	errorRequest: Action<ProductModel, any>;
+	setProductDetail: Action<ProductModel, Product>;
 	setProducts: Action<ProductModel, PaginateResult<Product>>;
 	//Thunks
 	getProducts: Thunk<ProductModel, any, Injections>;
@@ -16,6 +18,7 @@ export interface ProductModel {
 
 export const productModel: ProductModel = {
 	//State
+	productDetail: new Product({}),
 	listProducts: {
 		docs: [],
 		total: 0,
@@ -26,6 +29,9 @@ export const productModel: ProductModel = {
 	//Actions
 	errorRequest: action((state, { msg, show = true }) => {
 		alert(`Error: ${msg.message}`);
+	}),
+	setProductDetail: action((state, payload) => {
+		state.productDetail = payload;
 	}),
 	setProducts: action((state, payload) => {
 		state.listProducts = payload;

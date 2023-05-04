@@ -1,5 +1,6 @@
 import { Product } from "../models/product";
 import { useStoreActions } from "../hooks";
+import { Link } from "react-router-dom";
 
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 
@@ -41,7 +42,15 @@ export default function Card({ data }: Props) {
 			<p>{data.description}</p>
 
 			<p>{data.store.name}</p>
-			<button>Compare</button>
+			<Link
+				to={`/product/detail`}
+				onClick={() => {
+					setProductSelected(data);
+				}}
+				className="CleanLink"
+			>
+				Compare
+			</Link>
 			<button onClick={addList}>Add to list</button>
 			<button onClick={addToCartList}>
 				<AiOutlineShoppingCart />

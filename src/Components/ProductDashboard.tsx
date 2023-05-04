@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useStoreState, useStoreActions } from "../hooks";
+import { useStoreActions } from "../hooks";
+import { Outlet } from "react-router-dom";
 
 import FilterBar from "./FilterBar";
-import Grid from "./Grid";
+// import Grid from "./Grid";
 import ModalAddList from "./ModalAddList";
 
 import "../Styles/ProductDashboard.scss";
 
 export default function ProductDashboard() {
-	//State
-	const products = useStoreState((state) => state.product.listProducts);
 	//Actions
 	const getProducts = useStoreActions((action) => action.product.getProducts);
 	const getStores = useStoreActions((action) => action.store.getStores);
@@ -24,7 +23,8 @@ export default function ProductDashboard() {
 		<div className="ProductDashboard">
 			<ModalAddList />
 			<FilterBar />
-			<Grid data={products.docs} />
+			{/* <Grid /> */}
+			<Outlet />
 		</div>
 	);
 }
