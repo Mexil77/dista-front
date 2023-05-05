@@ -4,40 +4,42 @@ import { useStoreState, useStoreActions } from "../hooks";
 import "../Styles/Navbar.scss";
 
 export default function Navbar() {
-	//Store
-	const authenticated = useStoreState((store) => store.auth.authenticated);
-	//Actions
-	const logOut = useStoreActions((actions) => actions.auth.logOut);
+  //Store
+  const authenticated = useStoreState((store) => store.auth.authenticated);
+  //Actions
+  const logOut = useStoreActions((actions) => actions.auth.logOut);
 
-	//Navigation
-	const navigate = useNavigate();
+  //Navigation
+  const navigate = useNavigate();
 
-	//Functions
-	const logout = () => {
-		logOut();
-		navigate("/");
-	};
-	return (
-		<div className="Navbar">
-			<Link to="/" className="CleanLink Navbar_Title">
-				Dista
-			</Link>
-			{authenticated ? (
-				<div className="Navbar_LogButtons">
-					<button onClick={logout} className="ButtonLink">
-						LogOut
-					</button>
-				</div>
-			) : (
-				<div className="Navbar_LogButtons">
-					<Link to="/login" className="CleanLink ButtonLink">
-						Login
-					</Link>
-					<Link to="/signup" className="CleanLink ButtonLink">
-						SignUp
-					</Link>
-				</div>
-			)}
-		</div>
-	);
+  //Functions
+  const logout = () => {
+    logOut();
+    navigate("/");
+  };
+  return (
+    <div className="Navbar">
+      <Link to="/" className="CleanLink Navbar_Title">
+        <a href="https://ibb.co/Czprxhj">
+          <img className="logo" src="https://i.ibb.co/MsyXqMz/logo.png" />
+        </a>
+      </Link>
+      {authenticated ? (
+        <div className="Navbar_LogButtons">
+          <button onClick={logout} className="ButtonLink">
+            LogOut
+          </button>
+        </div>
+      ) : (
+        <div className="Navbar_LogButtons">
+          <Link to="/login" className="CleanLink ButtonLink">
+            Login
+          </Link>
+          <Link to="/signup" className="CleanLink ButtonLink">
+            SignUp
+          </Link>
+        </div>
+      )}
+    </div>
+  );
 }
