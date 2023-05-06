@@ -14,5 +14,5 @@ export default function NoAuthRoute({ component: Component }: Props) {
 	useEffect(() => {
 		if (authenticated) navigate("/home");
 	});
-	return <Component />;
+	return !authenticated ? <Component /> : <></>;
 }

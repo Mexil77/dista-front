@@ -1,0 +1,29 @@
+@import "./defaults/variables";
+
+.Analytics {
+	display: flex;
+	width: 80%;
+	min-height: calc(100vh - $navbar-height - $footer-height);
+	background-color: #e3e4e5;
+	flex-direction: column;
+}
+
+.Analytics_Header {
+	font-size: large;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px;
+}
+.Analytics_Header p {
+	margin: 0;
+}
+
+.Analytics_Charts {
+	display: flex;
+	width: 100%;
+}
+
+.Analytics_Charts_Chart {
+	width: 50%;
+}
