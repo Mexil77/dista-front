@@ -51,7 +51,7 @@ export const listModel: ListModel = {
 	}),
 	setCartProduct: action((state, payload) => {
 		const find = state.cartList.products.find(
-			(product) => product._id === payload._id
+			(product: Product) => product._id === payload._id
 		);
 		if (!find) {
 			state.cartList.products.push(payload);
@@ -76,7 +76,7 @@ export const listModel: ListModel = {
 	}),
 	dropCartProduct: action((state, payload) => {
 		state.cartList.products = state.cartList.products.filter(
-			(product) => product._id !== payload
+			(product: Product) => product._id !== payload
 		);
 		state.cartList.total = totalListProducts(state.cartList.products);
 		state.cartList.storeTotals = makeStoreTotals(state.cartList.products);
