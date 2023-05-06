@@ -1,16 +1,18 @@
 .CleanLink {
-	text-decoration: none;
-	text-decoration-line: none;
+  text-decoration: none;
+  text-decoration-line: none;
 }
 
 .ButtonLink {
-	width: 8rem;
-	line-height: 3rem;
-	border: 1px solid #000;
-	border-radius: 10px;
-	background-color: #afafaf;
-	text-align: center;
-	vertical-align: middle;
-	font-size: large;
-	font-weight: bold;
+  width: 8rem;
+  line-height: 3rem;
+  border: 0;
+  border-radius: 40px;
+  background-color: #afafaf;
+  text-align: center;
+  vertical-align: middle;
+  font-size: medium;
+  font-weight: 0;
+  background: linear-gradient(70deg, #d90d32, #ed7054);
+  color: #ffff;
 }

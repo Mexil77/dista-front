@@ -1,12 +1,24 @@
 .LogIn {
-	display: flex;
-	flex-direction: column;
-	width: 90%;
-	max-width: 22rem;
-	height: 22rem;
-	justify-content: space-around;
-	align-items: center;
-	background-color: aliceblue;
-	border-radius: 20px;
-	border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 26rem;
+  height: 26rem;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff2e6;
+  border-radius: 20px;
+  box-shadow: 0px 3px 10px rgb(211, 209, 209);
+}
+
+.aux {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #fffaf5;
+  background-image: url(./imgs/fondo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: medium;
 }

@@ -4,13 +4,13 @@ import { useStoreState, useStoreActions } from "../hooks";
 import "../Styles/Navbar.scss";
 
 export default function Navbar() {
-	//Store
-	const authenticated = useStoreState((store) => store.auth.authenticated);
-	//Actions
-	const logOut = useStoreActions((actions) => actions.auth.logOut);
+  //Store
+  const authenticated = useStoreState((store) => store.auth.authenticated);
+  //Actions
+  const logOut = useStoreActions((actions) => actions.auth.logOut);
 
-	//Navigation
-	const navigate = useNavigate();
+  //Navigation
+  const navigate = useNavigate();
 
 	//Functions
 	const logout = () => {
@@ -20,8 +20,10 @@ export default function Navbar() {
 	return (
 		<div className="Navbar">
 			<Link to="/" className="CleanLink Navbar_Title">
-				Dista
-			</Link>
+        <a href="https://ibb.co/Czprxhj">
+          <img className="logo" src="https://i.ibb.co/MsyXqMz/logo.png" />
+        </a>
+      </Link>
 			{authenticated && (
 				<div className="Navbar_NavLinks">
 					<Link to="/list" className="CleanLink Navbar_Title">
