@@ -12,34 +12,50 @@ export default function Navbar() {
   //Navigation
   const navigate = useNavigate();
 
-  //Functions
-  const logout = () => {
-    logOut();
-    navigate("/");
-  };
-  return (
-    <div className="Navbar">
-      <Link to="/" className="CleanLink Navbar_Title">
+	//Functions
+	const logout = () => {
+		logOut();
+		navigate("/");
+	};
+	return (
+		<div className="Navbar">
+			<Link to="/" className="CleanLink Navbar_Title">
         <a href="https://ibb.co/Czprxhj">
           <img className="logo" src="https://i.ibb.co/MsyXqMz/logo.png" />
         </a>
       </Link>
-      {authenticated ? (
-        <div className="Navbar_LogButtons">
-          <button onClick={logout} className="ButtonLink">
-            LogOut
-          </button>
-        </div>
-      ) : (
-        <div className="Navbar_LogButtons">
-          <Link to="/login" className="CleanLink ButtonLink">
-            Login
-          </Link>
-          <Link to="/signup" className="CleanLink ButtonLink">
-            SignUp
-          </Link>
-        </div>
-      )}
-    </div>
-  );
+			{authenticated && (
+				<div className="Navbar_NavLinks">
+					<Link to="/list" className="CleanLink Navbar_Title">
+						Lists
+					</Link>
+					<Link to="/product" className="CleanLink Navbar_Title">
+						Products
+					</Link>
+					<Link to="/cart" className="CleanLink Navbar_Title">
+						Cart
+					</Link>
+					<Link to="/analytic" className="CleanLink Navbar_Title">
+						Analitycs
+					</Link>
+				</div>
+			)}
+			{authenticated ? (
+				<div className="Navbar_LogButtons">
+					<button onClick={logout} className="ButtonLink">
+						LogOut
+					</button>
+				</div>
+			) : (
+				<div className="Navbar_LogButtons">
+					<Link to="/login" className="CleanLink ButtonLink">
+						Login
+					</Link>
+					<Link to="/signup" className="CleanLink ButtonLink">
+						SignUp
+					</Link>
+				</div>
+			)}
+		</div>
+	);
 }
