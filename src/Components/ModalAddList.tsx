@@ -6,6 +6,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { AiOutlineEdit } from "react-icons/ai";
 
 import "../Styles/ModalAddList.scss";
+import { List } from "../models/list";
 
 export default function ModalAddList() {
 	//Refs
@@ -94,7 +95,7 @@ export default function ModalAddList() {
 					value={modalListState.listSelect}
 					onChange={onFiledChange}
 				>
-					{listLists.docs.map((list) => (
+					{listLists.docs.map((list: List) => (
 						<option key={list._id} value={list._id}>
 							{list.name}
 						</option>

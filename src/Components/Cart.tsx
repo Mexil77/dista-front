@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 
 import { AiFillDelete } from "react-icons/ai";
+import { storeTotal } from "../models/list";
 
 export default function Cart() {
 	const [startDate, setStartDate] = useState<Date>(new Date());
@@ -53,7 +54,7 @@ export default function Cart() {
 			</div>
 			<div className="Cart_Body">
 				<div className="Cart_Body_Products">
-					{cartProductList?.map((product) => (
+					{cartProductList?.map((product: any) => (
 						<div key={product._id} className="Cart_Body_Products_Product">
 							<p style={product.discarted ? { backgroundColor: "red" } : {}}>
 								{product.name}
@@ -99,7 +100,7 @@ export default function Cart() {
 					))}
 				</div>
 				<div className="Cart_Body_Totals">
-					{cartList.storeTotals?.map((store) => (
+					{cartList.storeTotals?.map((store: storeTotal) => (
 						<div key={store.store._id} className="Cart_Body_Totals_Total">
 							<p>{store.store.name}</p>
 							<p>{`$${store.total}`}</p>

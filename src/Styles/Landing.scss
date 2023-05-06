@@ -1,44 +1,44 @@
 @import "./defaults/variables";
 
 .Landing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: calc(100vh - $navbar-height - $footer-height);
-  background-color: #fffaf5;
-  background-image: url(./imgs/fondo.png);
-  background-repeat: no-repeat;
-  background-size: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	min-height: calc(100vh - $navbar-height - $footer-height);
+	background-color: #fffaf5;
+	// background-image: url(./imgs/fondo.png);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .fondo2 {
-  background-size: 1440px 810px;
-  background-image: url("https://i.ibb.co/fFnwPqP/fondo2.png");
-  background-repeat: no-repeat;
-  background-position: 10em;
-  padding-top: 15em;
-  padding-left: 30rem;
-  display: flex;
-  width: 100%;
-  min-height: calc(100vh - $navbar-height - $footer-height);
+	background-size: 1440px 810px;
+	background-image: url("https://i.ibb.co/fFnwPqP/fondo2.png");
+	background-repeat: no-repeat;
+	background-position: 10em;
+	padding-top: 15em;
+	padding-left: 30rem;
+	display: flex;
+	width: 100%;
+	min-height: calc(100vh - $navbar-height - $footer-height);
 }
 
 .principalbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
-  height: 200px;
-  background-color: #fff6ee;
-  color: #400308;
-  border-radius: 2em;
-  margin-top: 150px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 300px;
+	height: 200px;
+	background-color: #fff6ee;
+	color: #400308;
+	border-radius: 2em;
+	margin-top: 150px;
 }
 
 .boxint {
-  padding-top: 3rem;
-  font-size: small;
-  font-weight: lighter;
-  list-style-type: none;
+	padding-top: 3rem;
+	font-size: small;
+	font-weight: lighter;
+	list-style-type: none;
 }
