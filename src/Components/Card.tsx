@@ -16,8 +16,8 @@ export default function Card({ data }: Props) {
 	const setProductSelected = useStoreActions(
 		(action) => action.list.setProductSelected
 	);
-	const setCartProduct = useStoreActions(
-		(action) => action.list.setCartProduct
+	const setTicketProduct = useStoreActions(
+		(action) => action.ticket.setTicketProduct
 	);
 
 	//Functions
@@ -26,7 +26,7 @@ export default function Card({ data }: Props) {
 		setShowModalAddList(true);
 	};
 	const addToCartList = () => {
-		setCartProduct({ ...data, discarted: false, founded: false });
+		setTicketProduct({ ...data });
 	};
 
 	return (

@@ -5,6 +5,7 @@ import { ProductModel, productModel } from "./product";
 import { StorModel, storModel } from "./store";
 import { ListModel, listModel } from "./list";
 import { ChartModel, chartModel } from "./charts";
+import { TicketModel, ticketModel } from "./ticket";
 
 //Store Model interface
 export interface StoreModel {
@@ -13,6 +14,7 @@ export interface StoreModel {
 	product: ProductModel;
 	store: StorModel;
 	list: ListModel;
+	ticket: TicketModel;
 	chart: ChartModel;
 }
 
@@ -22,7 +24,8 @@ const storeModel: StoreModel = {
 	form: formModel,
 	product: productModel,
 	store: storModel,
-	list: persist(listModel),
+	list: listModel,
+	ticket: persist(ticketModel),
 	chart: chartModel,
 };
 

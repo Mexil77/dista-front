@@ -4,27 +4,19 @@ import { errorMessage } from "../lib/errors";
 import { PaginateResult } from "../interface/PaginateResult";
 import { List } from "../models/list";
 import { Product } from "../models/product";
-import { totalListProducts, makeStoreTotals } from "../lib/utils";
 
 export interface ListModel {
 	//State
-	cartList: List;
 	listLists: PaginateResult<List>;
 	listSelected: List;
 	showModalAddList: boolean;
 	productSelected: Product;
 	//Actions
 	errorRequest: Action<ListModel, any>;
-	setCartProduct: Action<ListModel, any>;
-	setCartList: Action<ListModel, any>;
 	setLists: Action<ListModel, any>;
 	setShowModalAddList: Action<ListModel, any>;
 	setProductSelected: Action<ListModel, any>;
 	setListSelected: Action<ListModel, any>;
-	dropCartProduct: Action<ListModel, any>;
-	handleCartListCheckers: Action<ListModel, any>;
-	//Thunks
-	saveBuy: Thunk<ListModel, any, Injections>;
 	getLists: Thunk<ListModel, any, Injections>;
 	saveModalAddList: Thunk<ListModel, any, Injections>;
 	saveModalEditList: Thunk<ListModel, any, Injections>;
@@ -34,7 +26,6 @@ export interface ListModel {
 
 export const listModel: ListModel = {
 	//State
-	cartList: new List({ name: "Cart", total: 0, products: [] }),
 	listLists: {
 		docs: [],
 		total: 0,
@@ -49,19 +40,6 @@ export const listModel: ListModel = {
 	errorRequest: action((state, { msg, show = true }) => {
 		alert(`Error: ${msg.message}`);
 	}),
-	setCartProduct: action((state, payload) => {
-		const find = state.cartList.products.find(
-			(product: Product) => product._id === payload._id
-		);
-		if (!find) {
-			state.cartList.products.push(payload);
-			state.cartList.total = totalListProducts(state.cartList.products);
-			state.cartList.storeTotals = makeStoreTotals(state.cartList.products);
-		}
-	}),
-	setCartList: action((state, payload) => {
-		state.cartList = payload;
-	}),
 	setLists: action((state, payload) => {
 		state.listLists = payload;
 	}),
@@ -74,37 +52,12 @@ export const listModel: ListModel = {
 	setListSelected: action((state, payload) => {
 		state.listSelected = new List(payload);
 	}),
-	dropCartProduct: action((state, payload) => {
-		state.cartList.products = state.cartList.products.filter(
-			(product: Product) => product._id !== payload
-		);
-		state.cartList.total = totalListProducts(state.cartList.products);
-		state.cartList.storeTotals = makeStoreTotals(state.cartList.products);
-	}),
-	handleCartListCheckers: action((state, payload) => {
-		state.cartList.products = state.cartList.products.map((product: any) =>
-			product._id !== payload.id
-				? product
-				: { ...product, [payload.field]: payload.value }
-		);
-	}),
 	//Thunks
 	getLists: thunk(async (actions, payload, { injections }) => {
 		try {
 			const { listApi } = injections;
 			const data = await listApi.getLists(payload);
 			actions.setLists(data);
-		} catch (error) {
-			actions.errorRequest({ msg: errorMessage(error) });
-			return false;
-		}
-		return true;
-	}),
-	saveBuy: thunk(async (actions, payload, { injections }) => {
-		try {
-			const { listApi } = injections;
-			await listApi.saveBuy(payload);
-			actions.setCartList(new List({ name: "Cart", total: 0, products: [] }));
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });
 			return false;

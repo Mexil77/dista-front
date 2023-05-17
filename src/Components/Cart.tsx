@@ -5,37 +5,38 @@ import { useNavigate } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 
 import { AiFillDelete } from "react-icons/ai";
-import { storeTotal } from "../models/list";
+import { storeTotal } from "../models/store";
+import { TicketProduct } from "../models/product";
 
 export default function Cart() {
 	const [startDate, setStartDate] = useState<Date>(new Date());
 	//State
-	const cartList = useStoreState((state) => state.list.cartList);
+	const ticketList = useStoreState((state) => state.ticket.ticketList);
 	//Actions
-	const dropCartProduct = useStoreActions(
-		(action) => action.list.dropCartProduct
+	const dropTicketProduct = useStoreActions(
+		(action) => action.ticket.dropTicketProduct
 	);
-	const handleCartListCheckers = useStoreActions(
-		(action) => action.list.handleCartListCheckers
+	const handleTicketListCheckers = useStoreActions(
+		(action) => action.ticket.handleTicketListCheckers
 	);
 	//Thunks
-	const saveBuy = useStoreActions((action) => action.list.saveBuy);
+	const saveBuy = useStoreActions((action) => action.ticket.saveBuy);
 	//LocalState
-	const [cartProductList, setCartProductList] = useState(cartList.products);
+	const [ticketProductList, setCartProductList] = useState(ticketList.products);
 	//Navigate
 	const navigate = useNavigate();
 
 	//fucntions
 	const manageDelete = (id: string) => {
-		dropCartProduct(id);
-		setCartProductList(cartList.products);
+		dropTicketProduct(id);
+		setCartProductList(ticketList.products);
 	};
 	const manageCheckers = (id: string, field: string, value: boolean) => {
-		handleCartListCheckers({ id, field, value });
-		setCartProductList(cartList.products);
+		handleTicketListCheckers({ id, field, value });
+		setCartProductList(ticketList.products);
 	};
 	const manageSaveBuy = () => {
-		const res = saveBuy({ ...cartList, registerDate: startDate });
+		const res = saveBuy({ ...ticketList, registerDate: startDate });
 		if (res) {
 			navigate("/home");
 		}
@@ -43,7 +44,7 @@ export default function Cart() {
 	return (
 		<div className="Cart">
 			<div className="Cart_Header">
-				<h1>{cartList.name}</h1>
+				<h1>Cart</h1>
 			</div>
 			<div className="Cart_Date">
 				<h1>Ticket Day</h1>
@@ -54,16 +55,24 @@ export default function Cart() {
 			</div>
 			<div className="Cart_Body">
 				<div className="Cart_Body_Products">
-					{cartProductList?.map((product: any) => (
-						<div key={product._id} className="Cart_Body_Products_Product">
-							<p style={product.discarted ? { backgroundColor: "red" } : {}}>
-								{product.name}
+					{ticketProductList?.map((ticketProduct: TicketProduct) => (
+						<div
+							key={ticketProduct.product._id}
+							className="Cart_Body_Products_Product"
+						>
+							<p
+								style={
+									ticketProduct.discarted ? { backgroundColor: "red" } : {}
+								}
+							>
+								{ticketProduct.product.name}
 							</p>
-							<p>{product.description}</p>
+							<p>{ticketProduct.product.description}</p>
 							<p>
-								{product.units} {product.typeUnit} - ${product.price}
+								{ticketProduct.product.units} {ticketProduct.product.typeUnit} -
+								${ticketProduct.product.price}
 							</p>
-							<button onClick={() => manageDelete(product._id)}>
+							<button onClick={() => manageDelete(ticketProduct.product._id)}>
 								<AiFillDelete />
 							</button>
 							<div className="Cart_Body_Products_Product_checkbox">
@@ -73,12 +82,12 @@ export default function Cart() {
 										type="checkbox"
 										name="encontrado"
 										id="1"
-										checked={product.discarted}
+										checked={ticketProduct.discarted}
 										onChange={() => {
 											manageCheckers(
-												product._id,
+												ticketProduct.product._id,
 												"discarted",
-												!product.discarted
+												!ticketProduct.discarted
 											);
 										}}
 									/>
@@ -89,9 +98,13 @@ export default function Cart() {
 										type="checkbox"
 										name="noEncontrado"
 										id="2"
-										checked={product.founded}
+										checked={ticketProduct.founded}
 										onChange={() => {
-											manageCheckers(product._id, "founded", !product.founded);
+											manageCheckers(
+												ticketProduct.product._id,
+												"founded",
+												!ticketProduct.founded
+											);
 										}}
 									/>
 								</div>
@@ -100,7 +113,7 @@ export default function Cart() {
 					))}
 				</div>
 				<div className="Cart_Body_Totals">
-					{cartList.storeTotals?.map((store: storeTotal) => (
+					{ticketList.storeTotals?.map((store: storeTotal) => (
 						<div key={store.store._id} className="Cart_Body_Totals_Total">
 							<p>{store.store.name}</p>
 							<p>{`$${store.total}`}</p>
@@ -108,7 +121,7 @@ export default function Cart() {
 					))}
 					<div className="Cart_Body_Totals_Total">
 						<p>TOTAL</p>
-						<p>{`$${cartList.total}`}</p>
+						<p>{`$${ticketList.total}`}</p>
 					</div>
 					<button onClick={manageSaveBuy}>Make Ticket</button>
 				</div>

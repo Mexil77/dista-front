@@ -1,8 +1,8 @@
 import { api } from "../api";
 import { isEmpty } from "lodash";
-import { CartProduct } from "../models/cartProduct";
-import { storeTotal } from "../models/list";
+import { storeTotal } from "../models/store";
 import { Store } from "../models/store";
+import { TicketProduct } from "../models/product";
 
 export const setAuthorizationToken: any = (
 	token: string | undefined | null
@@ -17,24 +17,33 @@ export const setAuthorizationToken: any = (
 export const formatPrice = (price: number): number =>
 	parseFloat(price.toFixed(2));
 
-export const totalListProducts = (listProducts: CartProduct[]): number => {
-	return listProducts.reduce(
-		(acc, product) => formatPrice((acc += product.price)),
+export const totalTicketProducts = (
+	ticketProducts: TicketProduct[]
+): number => {
+	return ticketProducts.reduce(
+		(acc, ticketProduct) => formatPrice((acc += ticketProduct.product.price)),
 		0
 	);
 };
 
-export const makeStoreTotals = (listProducts: CartProduct[]): storeTotal[] => {
-	let listStores = listProducts.reduce((acc, product, idx, listP) => {
-		let val = product.store._id;
-		if (listP.findIndex((product) => product.store._id === val) === idx)
-			acc.push(product.store);
+export const makeTicketStoreTotals = (
+	ticketProducts: TicketProduct[]
+): storeTotal[] => {
+	let listStores = ticketProducts.reduce((acc, ticketProduct, idx, listP) => {
+		let val = ticketProduct.product.store._id;
+		if (
+			listP.findIndex(
+				(ticketProduct) => ticketProduct.product.store._id === val
+			) === idx
+		)
+			acc.push(ticketProduct.product.store);
 		return acc;
 	}, [] as Store[]);
 	const listStoreTotals = listStores.map((store) => {
 		let val = store._id;
-		const total = listProducts.reduce((acc, product) => {
-			if (product.store._id === val) acc += product.price;
+		const total = ticketProducts.reduce((acc, ticketProduct) => {
+			if (ticketProduct.product.store._id === val)
+				acc += ticketProduct.product.price;
 			return formatPrice(acc);
 		}, 0);
 		return {
