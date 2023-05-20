@@ -4,7 +4,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 
-import { AiFillDelete } from "react-icons/ai";
+import {
+	AiFillCaretDown,
+	AiFillCaretUp,
+	AiFillDelete,
+	AiFillStar,
+} from "react-icons/ai";
 import { storeTotal } from "../models/store";
 import { TicketProduct } from "../models/product";
 
@@ -16,24 +21,62 @@ export default function Cart() {
 	const dropTicketProduct = useStoreActions(
 		(action) => action.ticket.dropTicketProduct
 	);
-	const handleTicketListCheckers = useStoreActions(
-		(action) => action.ticket.handleTicketListCheckers
+	const handleTicketProductState = useStoreActions(
+		(action) => action.ticket.handleTicketProductState
+	);
+	const setTicketListProducts = useStoreActions(
+		(action) => action.ticket.setTicketListProducts
 	);
 	//Thunks
 	const saveBuy = useStoreActions((action) => action.ticket.saveBuy);
 	//LocalState
-	const [ticketProductList, setCartProductList] = useState(ticketList.products);
+	const [ticketProductList, setTicketProductList] = useState<TicketProduct[]>(
+		ticketList.products
+	);
 	//Navigate
 	const navigate = useNavigate();
 
 	//fucntions
 	const manageDelete = (id: string) => {
 		dropTicketProduct(id);
-		setCartProductList(ticketList.products);
+		setTicketProductList(ticketList.products);
 	};
-	const manageCheckers = (id: string, field: string, value: boolean) => {
-		handleTicketListCheckers({ id, field, value });
-		setCartProductList(ticketList.products);
+	const manageTicketProductState = (
+		id: string,
+		field: string,
+		value: boolean
+	) => {
+		handleTicketProductState({ id, field, value });
+		setTicketProductList(ticketList.products);
+	};
+	const manageTicketProductInput = (
+		inputNumber: any,
+		id: string,
+		field: string
+	) => {
+		if (!isNaN(inputNumber) && inputNumber >= 0) {
+			if (field === "discountRate" && inputNumber > 100) {
+				return;
+			}
+			const newTicketProducts = ticketProductList.map(
+				(ticketProduct: TicketProduct) => {
+					if (ticketProduct.product._id === id) {
+						let newTicketProduct = { ...ticketProduct, [field]: inputNumber };
+						if (field === "quantity" || field === "discountRate") {
+							newTicketProduct.totalTicketProduct =
+								ticketProduct.product.price *
+								newTicketProduct.quantity *
+								(100 - newTicketProduct.discountRate) *
+								0.01;
+						}
+						return newTicketProduct;
+					}
+					return ticketProduct;
+				}
+			);
+			setTicketProductList(newTicketProducts);
+			setTicketListProducts(newTicketProducts);
+		}
 	};
 	const manageSaveBuy = () => {
 		const res = saveBuy({ ...ticketList, registerDate: startDate });
@@ -61,58 +104,112 @@ export default function Cart() {
 							className="Cart_Body_Products_Product"
 						>
 							<p
-								style={
-									ticketProduct.discarted ? { backgroundColor: "red" } : {}
-								}
+								className="Cart_Body_Products_Product_Name"
+								style={ticketProduct.founded ? { backgroundColor: "blue" } : {}}
 							>
 								{ticketProduct.product.name}
 							</p>
-							<p>{ticketProduct.product.description}</p>
-							<p>
-								{ticketProduct.product.units} {ticketProduct.product.typeUnit} -
-								${ticketProduct.product.price}
-							</p>
-							<button onClick={() => manageDelete(ticketProduct.product._id)}>
-								<AiFillDelete />
-							</button>
-							<div className="Cart_Body_Products_Product_checkbox">
-								<div className="checkbox">
-									<label>Descartado</label>
+							<div className="Cart_body_Product_Info">
+								<p>
+									{ticketProduct.product.description} -{" "}
+									{ticketProduct.product.units} {ticketProduct.product.typeUnit}{" "}
+									- € {ticketProduct.product.price}
+								</p>
+							</div>
+							<div className="Cart_body_Product_Form">
+								<div className="Cart_body_Product_Form_Input">
+									<label>Units</label>
 									<input
-										type="checkbox"
-										name="encontrado"
-										id="1"
-										checked={ticketProduct.discarted}
-										onChange={() => {
-											manageCheckers(
+										type="number"
+										value={ticketProduct.quantity}
+										onChange={(e) =>
+											manageTicketProductInput(
+												Number(e.target.value),
 												ticketProduct.product._id,
-												"discarted",
-												!ticketProduct.discarted
+												"quantity"
+											)
+										}
+									/>
+									<button
+										onClick={() => {
+											manageTicketProductInput(
+												ticketProduct.quantity + 1,
+												ticketProduct.product._id,
+												"quantity"
 											);
 										}}
-									/>
-								</div>
-								<div className="checkbox">
-									<label>Encontrado</label>
-									<input
-										type="checkbox"
-										name="noEncontrado"
-										id="2"
-										checked={ticketProduct.founded}
-										onChange={() => {
-											manageCheckers(
+									>
+										<AiFillCaretUp />
+									</button>
+									<button
+										onClick={() => {
+											manageTicketProductInput(
+												ticketProduct.quantity - 1,
 												ticketProduct.product._id,
-												"founded",
-												!ticketProduct.founded
+												"quantity"
 											);
 										}}
+									>
+										<AiFillCaretDown />
+									</button>
+								</div>
+								<div className="Cart_body_Product_Form_Input">
+									<label>Discount %</label>
+									<input
+										type="number"
+										value={ticketProduct.discountRate}
+										onChange={(e) =>
+											manageTicketProductInput(
+												Number(e.target.value),
+												ticketProduct.product._id,
+												"discountRate"
+											)
+										}
 									/>
 								</div>
+								<div className="Cart_body_Product_Form_Input">
+									<label>Price</label>
+									<input
+										type="number"
+										value={ticketProduct.totalTicketProduct}
+										onChange={(e) =>
+											manageTicketProductInput(
+												Number(e.target.value),
+												ticketProduct.product._id,
+												"totalTicketProduct"
+											)
+										}
+									/>
+								</div>
+							</div>
+							<div className="Cart_Body_Products_Product_Buttons">
+								<button onClick={() => manageDelete(ticketProduct.product._id)}>
+									<AiFillDelete />
+								</button>
+								<button
+									onClick={() =>
+										manageTicketProductState(
+											ticketProduct.product._id,
+											"founded",
+											!ticketProduct.founded
+										)
+									}
+								>
+									<AiFillStar />
+								</button>
 							</div>
 						</div>
 					))}
 				</div>
 				<div className="Cart_Body_Totals">
+					<div className="Cart_body_Product_Form_Input">
+						<label>Total Discount %</label>
+						<input
+							type="number"
+							value={ticketList.discountRate}
+							onChange={(e) => {}}
+						/>
+					</div>
 					{ticketList.storeTotals?.map((store: storeTotal) => (
 						<div key={store.store._id} className="Cart_Body_Totals_Total">
 							<p>{store.store.name}</p>

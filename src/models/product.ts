@@ -27,16 +27,16 @@ export class Product {
 
 export class TicketProduct {
 	public product: Product;
-	public discarted: boolean;
 	public founded: boolean;
 	public discountRate: number;
 	public quantity: number;
+	public totalTicketProduct: number;
 
 	constructor(info: any) {
 		this.product = info.product;
-		this.discarted = info.discarted;
 		this.founded = info.founded;
 		this.discountRate = info.discountRate;
 		this.quantity = info.quantity;
+		this.totalTicketProduct = info.totalTicketProduct;
 	}
 }
