@@ -12,9 +12,9 @@ import {
 } from "react-icons/ai";
 import { storeTotal } from "../models/store";
 import { TicketProduct } from "../models/product";
+import { makeTicketStoreTotals, totalTicketProducts } from "../lib/utils";
 
 export default function Cart() {
-	const [startDate, setStartDate] = useState<Date>(new Date());
 	//State
 	const ticketList = useStoreState((state) => state.ticket.ticketList);
 	//Actions
@@ -24,12 +24,13 @@ export default function Cart() {
 	const handleTicketProductState = useStoreActions(
 		(action) => action.ticket.handleTicketProductState
 	);
-	const setTicketListProducts = useStoreActions(
-		(action) => action.ticket.setTicketListProducts
+	const setTicketList = useStoreActions(
+		(action) => action.ticket.setTicketList
 	);
 	//Thunks
 	const saveBuy = useStoreActions((action) => action.ticket.saveBuy);
 	//LocalState
+	const [startDate, setStartDate] = useState<Date>(new Date());
 	const [ticketProductList, setTicketProductList] = useState<TicketProduct[]>(
 		ticketList.products
 	);
@@ -39,7 +40,11 @@ export default function Cart() {
 	//fucntions
 	const manageDelete = (id: string) => {
 		dropTicketProduct(id);
-		setTicketProductList(ticketList.products);
+		setTicketProductList(
+			ticketList.products.filter(
+				(ticketProduct) => ticketProduct.product._id !== id
+			)
+		);
 	};
 	const manageTicketProductState = (
 		id: string,
@@ -74,14 +79,34 @@ export default function Cart() {
 					return ticketProduct;
 				}
 			);
+			const total =
+				totalTicketProducts(newTicketProducts) *
+				(100 - ticketList.discountRate) *
+				0.01;
+			const newTicket = {
+				...ticketList,
+				products: newTicketProducts,
+				total,
+				storeTotals: makeTicketStoreTotals(newTicketProducts),
+			};
 			setTicketProductList(newTicketProducts);
-			setTicketListProducts(newTicketProducts);
+			setTicketList(newTicket);
 		}
 	};
 	const manageSaveBuy = () => {
 		const res = saveBuy({ ...ticketList, registerDate: startDate });
 		if (res) {
 			navigate("/home");
+		}
+	};
+	const manageTotalDiscountRate = (e: any) => {
+		const totalDiscountRate = Number(e.target.value);
+		if (totalDiscountRate >= 0 && totalDiscountRate <= 100) {
+			const total =
+				totalTicketProducts(ticketProductList) *
+				(100 - totalDiscountRate) *
+				0.01;
+			setTicketList({ ...ticketList, total, discountRate: totalDiscountRate });
 		}
 	};
 	return (
@@ -207,7 +232,7 @@ export default function Cart() {
 						<input
 							type="number"
 							value={ticketList.discountRate}
-							onChange={(e) => {}}
+							onChange={manageTotalDiscountRate}
 						/>
 					</div>
 					{ticketList.storeTotals?.map((store: storeTotal) => (

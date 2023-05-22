@@ -21,7 +21,8 @@ export const totalTicketProducts = (
 	ticketProducts: TicketProduct[]
 ): number => {
 	return ticketProducts.reduce(
-		(acc, ticketProduct) => formatPrice((acc += ticketProduct.product.price)),
+		(acc, ticketProduct) =>
+			formatPrice((acc += ticketProduct.totalTicketProduct)),
 		0
 	);
 };
@@ -43,7 +44,7 @@ export const makeTicketStoreTotals = (
 		let val = store._id;
 		const total = ticketProducts.reduce((acc, ticketProduct) => {
 			if (ticketProduct.product.store._id === val)
-				acc += ticketProduct.product.price;
+				acc += ticketProduct.totalTicketProduct;
 			return formatPrice(acc);
 		}, 0);
 		return {
