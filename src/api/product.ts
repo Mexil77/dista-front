@@ -6,6 +6,13 @@ const productApi = {
 		return data;
 	},
 
+	async updateProduct(payload: any) {
+		const { data } = await api.put(`product/${payload.productId}`, {
+			data: payload.newProduct,
+		});
+		return data;
+	},
+
 	async deleteProduct(payload: any) {
 		const { data } = await api.delete(`product/${payload._id}`);
 		return data;

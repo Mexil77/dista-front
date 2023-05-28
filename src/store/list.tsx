@@ -23,6 +23,7 @@ export interface ListModel {
 	deleteList: Thunk<ListModel, any, Injections>;
 	deleteProductList: Thunk<ListModel, any, Injections>;
 	deleteProductToAllLists: Thunk<ListModel, any, Injections>;
+	updateTotalsList: Thunk<ListModel, any, Injections>;
 }
 
 export const listModel: ListModel = {
@@ -120,6 +121,15 @@ export const listModel: ListModel = {
 		try {
 			const { listApi } = injections;
 			await listApi.deleteProductToAllLists(payload);
+		} catch (error) {
+			actions.errorRequest({ msg: errorMessage(error) });
+			return false;
+		}
+	}),
+	updateTotalsList: thunk(async (actions, payload, { injections }) => {
+		try {
+			const { listApi } = injections;
+			await listApi.updateTotalsList(payload);
 		} catch (error) {
 			actions.errorRequest({ msg: errorMessage(error) });
 			return false;

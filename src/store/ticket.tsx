@@ -75,19 +75,30 @@ export const ticketModel: TicketModel = {
 	//Thunks
 	saveBuy: thunk(async (actions, payload, { injections }) => {
 		try {
-			payload.products.map((ticketProduct: TicketProduct) => {
+			const { ticketApi, productApi, listApi } = injections;
+			payload.products.map(async (ticketProduct: TicketProduct) => {
 				if (
 					ticketProduct.quantity === 1 &&
 					ticketProduct.discountRate === 0 &&
 					ticketProduct.totalTicketProduct !== ticketProduct.product.price
 				) {
-					alert(
-						`Deseas actualizar el Precio de "${ticketProduct.product.name}"?`
-					);
+					if (
+						window.confirm(
+							`Deseas actualizar el Precio de "${ticketProduct.product.name}"?`
+						)
+					) {
+						await productApi.updateProduct({
+							productId: ticketProduct.product._id,
+							newProduct: {
+								...ticketProduct.product,
+								price: ticketProduct.totalTicketProduct,
+							},
+						});
+					}
 				}
 				return ticketProduct;
 			});
-			const { ticketApi } = injections;
+			await listApi.updateTotalsList({});
 			await ticketApi.saveBuy(payload);
 			actions.setTicketList(
 				new List({ total: 0, discountRate: 0, products: [] })
