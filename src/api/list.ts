@@ -33,6 +33,11 @@ const listApi = {
 		);
 		return data;
 	},
+
+	async deleteProductToAllLists(payload: any) {
+		const { data } = await api.put(`list`, { productId: payload._id });
+		return data;
+	},
 };
 
 export default listApi;

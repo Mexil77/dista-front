@@ -22,6 +22,7 @@ export interface ListModel {
 	saveModalEditList: Thunk<ListModel, any, Injections>;
 	deleteList: Thunk<ListModel, any, Injections>;
 	deleteProductList: Thunk<ListModel, any, Injections>;
+	deleteProductToAllLists: Thunk<ListModel, any, Injections>;
 }
 
 export const listModel: ListModel = {
@@ -114,5 +115,14 @@ export const listModel: ListModel = {
 			return false;
 		}
 		return true;
+	}),
+	deleteProductToAllLists: thunk(async (actions, payload, { injections }) => {
+		try {
+			const { listApi } = injections;
+			await listApi.deleteProductToAllLists(payload);
+		} catch (error) {
+			actions.errorRequest({ msg: errorMessage(error) });
+			return false;
+		}
 	}),
 };
