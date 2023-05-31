@@ -21,7 +21,7 @@ export default function RowList({ data }: Props) {
 		(action) => action.list.setListSelected
 	);
 	const setCartProduct = useStoreActions(
-		(action) => action.list.setCartProduct
+		(action) => action.ticket.setTicketProduct
 	);
 	//Thunks
 	const deleteList = useStoreActions((action) => action.list.deleteList);

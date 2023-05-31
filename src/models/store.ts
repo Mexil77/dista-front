@@ -1,6 +1,16 @@
 import { User } from "./user";
 import { Product } from "./product";
 
+export class storeTotal {
+	public store: Store;
+	public total: Number;
+
+	constructor(info: any) {
+		this.store = info.store;
+		this.total = info.total;
+	}
+}
+
 export class Store {
 	public _id: string;
 	public name: string;

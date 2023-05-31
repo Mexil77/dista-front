@@ -2,7 +2,11 @@ import { Product } from "../models/product";
 import { useStoreActions } from "../hooks";
 import { Link } from "react-router-dom";
 
-import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+	AiFillHeart,
+	AiOutlineDelete,
+	AiOutlineShoppingCart,
+} from "react-icons/ai";
 
 import "../Styles/Card.scss";
 
@@ -16,8 +20,14 @@ export default function Card({ data }: Props) {
 	const setProductSelected = useStoreActions(
 		(action) => action.list.setProductSelected
 	);
-	const setCartProduct = useStoreActions(
-		(action) => action.list.setCartProduct
+	const deleteProductToAllLists = useStoreActions(
+		(action) => action.list.deleteProductToAllLists
+	);
+	const setTicketProduct = useStoreActions(
+		(action) => action.ticket.setTicketProduct
+	);
+	const deleteProduct = useStoreActions(
+		(action) => action.product.deleteProduct
 	);
 
 	//Functions
@@ -26,7 +36,11 @@ export default function Card({ data }: Props) {
 		setShowModalAddList(true);
 	};
 	const addToCartList = () => {
-		setCartProduct({ ...data, discarted: false, founded: false });
+		setTicketProduct({ ...data });
+	};
+	const manageDelete = () => {
+		deleteProductToAllLists(data);
+		deleteProduct(data);
 	};
 
 	return (
@@ -49,11 +63,14 @@ export default function Card({ data }: Props) {
 				}}
 				className="CleanLink"
 			>
-				Compare
+				Detail
 			</Link>
 			<button onClick={addList}>Add to list</button>
 			<button onClick={addToCartList}>
 				<AiOutlineShoppingCart />
+			</button>
+			<button onClick={manageDelete}>
+				<AiOutlineDelete />
 			</button>
 		</div>
 	);

@@ -14,6 +14,7 @@ export interface ProductModel {
 	setProducts: Action<ProductModel, PaginateResult<Product>>;
 	//Thunks
 	getProducts: Thunk<ProductModel, any, Injections>;
+	deleteProduct: Thunk<ProductModel, any, Injections>;
 }
 
 export const productModel: ProductModel = {
@@ -47,5 +48,14 @@ export const productModel: ProductModel = {
 			return false;
 		}
 		return true;
+	}),
+	deleteProduct: thunk(async (actions, payload, { injections }) => {
+		try {
+			const { productApi } = injections;
+			await productApi.deleteProduct(payload);
+		} catch (error) {
+			actions.errorRequest({ msg: errorMessage(error) });
+			return false;
+		}
 	}),
 };

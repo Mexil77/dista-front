@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useStoreState } from "../hooks";
 
-export default function Detail() {
+export default function ProductDetail() {
 	const productSelected = useStoreState((state) => state.list.productSelected);
 	return (
 		<div>
